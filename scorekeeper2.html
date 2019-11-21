@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Макет 4</title>
+
+  <style type="text/css">
+
+   body {
+    background-color: #000; /* Цвет фона */
+   }
+   .header, .footer { background: #D5BAE4; }
+   .layout { overflow: hidden;}
+   .layout DIV { float: left; }
+   .Blue { width: 33%; }
+   .Timer { 
+         width: 33%; 
+        text-align: center;
+
+    }
+   .Red { width: 33%; }
+   .divPenalty {width: 50%}
+   .pScore {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 2200%;
+        user-select: none;
+    }
+    .pScoreTitle {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 1000%;
+        user-select: none;
+     }
+    .pPenaltyTitle {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 200%;
+        color: white; 
+        user-select: none;
+    }     
+    .pPenalty {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 600%;
+        color: white; 
+        user-select: none;
+    }
+    .myTimer {
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 800%;
+        color: white; 
+        user-select: none;
+    }
+
+  </style>
+
+
+<script type='text/javascript'>
+var blueCount=0,
+ redCount=0,
+ blueWarningCount=0,
+ redWarningCount=0,
+ blueExitCount=0,
+ redExitCount=0;
+ running = 0;
+
+function incBlue(N, elementId) {
+    blueCount+=N;
+    document.getElementById(elementId).innerHTML = blueCount;
+};
+function incRed(N, elementId) {
+    redCount+=N;
+    document.getElementById(elementId).innerHTML = redCount;
+};
+function incBlueWarning(N, elementId) {
+    blueWarningCount+=N;
+    document.getElementById(elementId).innerHTML = blueWarningCount;
+};
+function incRedWarning(N, elementId) {
+    redWarningCount+=N;
+    document.getElementById(elementId).innerHTML = redWarningCount;
+};
+function incBlueExit(N, elementId) {
+    blueExitCount+=N;
+    document.getElementById(elementId).innerHTML = blueExitCount;
+};
+function incRedExit(N, elementId) {
+    redExitCount+=N;
+    document.getElementById(elementId).innerHTML = redExitCount;
+};
+
+
+function timer (id) {
+				this.display = document.getElementById(id);
+				this.main;
+				this.base = 60;
+				this.time = 906;
+				this.init = 0;
+				this.data = '';
+				this.show = true;
+                this.roundC = 0;
+				this.setValue = function (data) {
+					if (this.display) {display.innerHTML = data || '00:00';}
+				}
+				this.clear = function () {
+                    this.roundC++;
+                    alert (this.roundC);
+                    document.getElementById("roundC").innerHTML = this.roundC;
+                    //clearTimeout(this.main);
+					this.time = 906;
+					this.data = '';
+					this.show = true;
+					this.init = 0;
+					this.setValue();
+                    
+				};
+				this.fixed = function (data) {
+					return (data < 10)?'0'+data:data;
+				}
+				this.start = function () {
+					
+					this.sec = Math.floor(this.time/100) % this.base;
+					this.sec = this.fixed(this.sec);
+					
+					this.min  = Math.floor(this.time/(100 * this.base)) % this.base;
+					this.min = this.fixed(this.min);
+					
+					this.data = this.min + ':'+this.sec;
+					
+					if (this.show == true) {
+						this.setValue(this.data);
+						var _this = this;
+						this.main = setTimeout(function() {
+							_this.start()
+						}, 6); // задержка
+					}
+					if (this.sec == 0 && this.min == 0) {
+                            this.clear();
+                            }
+					this.time--;
+				};
+				this.toggle = function () {
+					if (this.init == 0) {
+						this.start();
+						this.init = 1;
+					} else {
+						if (this.show == true) {
+							this.show = false;
+						} else {
+							this.show = true;
+							this.start();
+						}
+					}
+				};
+			}
+			
+			window.onload = function () {
+				var tm = new timer('display');
+				document.getElementById('display').onclick = function () {
+					tm.toggle();
+				};
+				document.getElementById('clear').onclick = function () {
+					tm.clear();
+				};
+			}
+
+
+
+
+</script>
+
+ </head>
+ <body>
+  <div class="header">POINTFIGHTING SCORE
+  </div>
+  <div class="layout">
+
+   <div class="Blue">   
+        <p class="pScoreTitle" style="color:blue;" id='blueScoreTitle' onclick="incBlue(-1, 'blueScore')">Blue</p>
+        <p class="pScore" style="color:blue;" id='blueScore' onclick="incBlue(1, 'blueScore')">0</p>
+
+        <div class="divPenalty">
+             <p class="pPenaltyTitle" id='blueWarningTitle' onclick="incBlueWarning(-1, 'blueWarning')">Warning</p>
+            <p class="pPenalty"id='blueWarning' onclick="incBlueWarning(1, 'blueWarning')">0</p>
+        </div>
+        <div class="divPenalty">
+             <p class="pPenaltyTitle" id='blueExitTitle' onclick="incBlueExit(-1, 'blueExit')">Exit</p> 
+             <p class="pPenalty" id='blueExit' onclick="incBlueExit(1, 'blueExit')">0</p>             
+        </div>
+   </div>
+
+    <div class="Timer">
+        <span id="display" class="pPenalty">00:00</span> <br>  <br>
+        <span class="pPenalty">round</span> <br>
+        <span id="roundNum" class="pPenalty">0</span>  
+               
+   </div>
+
+   <div class="Red">   
+        <p class="pScoreTitle" style="color: red;" id='redScoreTitle' onclick="incRed(-1, 'redScore')">Red</p>
+        <p class="pScore" style="color:red;" id='redScore' onclick="incRed(1, 'redScore')">0</p>
+
+
+        <div class="divPenalty">
+            <p class="pPenaltyTitle" id='redWarningTitle' onclick="incRedWarning(-1, 'redWarning')">Warning</p>
+            <p class="pPenalty"id='redWarning' onclick="incRedWarning(1, 'redWarning')">0</p>
+        </div>
+        <div class="divPenalty">
+            <p class="pPenaltyTitle" id='redExitTitle' onclick="incRedExit(-1, 'redExit')">Exit</p> 
+            <p class="pPenalty" id='redExit' onclick="incRedExit(1, 'redExit')">0</p>             
+        </div>
+   </div>
+
+
+  </div>
+  <div class="footer">Подвал
+        <div id="buttons"><input type="button" id="clear" value="Reset Time"/></div>
+        <div id="buttons"><input type="button" id="clearScore" value="Reset SCORE"/></div>
+  </div>
+ </body>
+</html>

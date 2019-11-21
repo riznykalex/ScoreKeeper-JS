@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Макет 4</title>
+  <style type="text/css">
+   body {
+    background-color: #555; /* Цвет фона */
+   }
+   .header, .footer { background: #D5BAE4; }
+   .layout { overflow: hidden;}
+   .layout DIV { float: left; }
+   .Blue { width: 33%; }
+   .Timer { width: 33%; }
+   .Red { width: 33%; }
+   .divPenalty {width: 50%}
+   .pScore {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 2200%;
+        user-select: none;
+    }
+    .pScoreTitle {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 1000%;
+        user-select: none;
+     }
+    .pPenaltyTitle {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 200%;
+        color: white; 
+        user-select: none;
+    }     
+    .pPenalty {  margin: 10px; /* Отступы от границ блока с абзацем */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Шрифт */
+        text-align: center;
+        font-size: 500%;
+        color: white; 
+        user-select: none;
+    }
+
+   
+  </style>
+
+<style type='text/css'>
+</style>
+<script type='text/javascript'>
+let blueCount=0,
+ redCount=0,
+ blueWarningCount=0,
+ redWarningCount=0,
+ blueExitCount=0,
+ redExitCount=0;
+ running = 0;
+
+function incBlue(N, elementId) {
+    blueCount+=N;
+    document.getElementById(elementId).innerHTML = blueCount;
+};
+function incRed(N, elementId) {
+    redCount+=N;
+    document.getElementById(elementId).innerHTML = redCount;
+};
+function incBlueWarning(N, elementId) {
+    blueWarningCount+=N;
+    document.getElementById(elementId).innerHTML = blueWarningCount;
+};
+function incRedWarning(N, elementId) {
+    redWarningCount+=N;
+    document.getElementById(elementId).innerHTML = redWarningCount;
+};
+function incBlueExit(N, elementId) {
+    blueExitCount+=N;
+    document.getElementById(elementId).innerHTML = blueExitCount;
+};
+function incRedExit(N, elementId) {
+    redExitCount+=N;
+    document.getElementById(elementId).innerHTML = redExitCount;
+};
+
+/********************************************************************************************************************
+Countdown.js is a simple script to add a countdown timer
+for your website. Currently it can only do full minutes
+and partial minutes aren't supported. This script is a fork of http://jsfiddle.net/HRrYG/ with some 
+added extensions. Since the original code that I forked was released under Creative Commons by SA license, 
+I have to release this code under the same license. You can view a live demo of this code at http://jsfiddle.net/JmrQE/2/.
+********************************************************************************************************************/
+function countdown(minutes) {
+    var seconds = 90;
+    var mins = minutes
+//    if(running = 0){
+    function tick() {
+    
+        //This script expects an element with an ID = "counter". You can change that to what ever you want. 
+        var counter = document.getElementById("counter");
+        var current_minutes = mins-1
+        seconds--;
+        counter.innerHTML = current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+        if( seconds > 0 ) {
+            setTimeout(tick, 1000);
+        } else {
+            if(mins > 1){
+                countdown(mins-1);           
+            }
+        }
+    }
+    tick();
+//    }
+}
+//You can use this script with a call to onclick, onblur or any other attribute you would like to use. countdown(n);//where n is the number of minutes required. 
+
+
+
+</script>
+
+
+
+ </head>
+ <body>
+  <div class="header">Шапка сайта</div>
+  <div class="layout">
+   <div class="Blue">   
+        <p class="pScoreTitle" style="color:blue;" id='blueScoreTitle' onclick="incBlue(-1, 'blueScore')">Blue</p>
+        <p class="pScore" style="color:blue;" id='blueScore' onclick="incBlue(1, 'blueScore')">0</p>
+
+        <div class="divPenalty">
+             <p class="pPenaltyTitle" id='blueWarningTitle' onclick="incBlueWarning(-1, 'blueWarning')">Warning</p>
+            <p class="pPenalty"id='blueWarning' onclick="incBlueWarning(1, 'blueWarning')">0</p>
+        </div>
+        <div class="divPenalty">
+             <p class="pPenaltyTitle" id='blueExitTitle' onclick="incBlueExit(-1, 'blueExit')">Exit</p> 
+             <p class="pPenalty" id='blueExit' onclick="incBlueExit(1, 'blueExit')">0</p>             
+        </div>
+   </div>
+
+
+
+
+
+   <div class="Timer">
+        <p class="pPenaltyTitle" onclick="countdown(1)">Timer</p>
+        <p  class="pPenalty" id="counter">0:00</p>
+   </div>
+
+
+   <div class="Red">   
+        <p class="pScoreTitle" style="color: red;" id='redScoreTitle' onclick="incRed(-1, 'redScore')">Red</p>
+        <p class="pScore" style="color:red;" id='redScore' onclick="incRed(1, 'redScore')">0</p>
+
+
+        <div class="divPenalty">
+            <p class="pPenaltyTitle" id='redWarningTitle' onclick="incRedWarning(-1, 'redWarning')">Warning</p>
+            <p class="pPenalty"id='redWarning' onclick="incRedWarning(1, 'redWarning')">0</p>
+        </div>
+        <div class="divPenalty">
+            <p class="pPenaltyTitle" id='redExitTitle' onclick="incRedExit(-1, 'redExit')">Exit</p> 
+            <p class="pPenalty" id='redExit' onclick="incRedExit(1, 'redExit')">0</p>             
+        </div>
+   </div>
+
+
+  </div>
+  <div class="footer">Подвал</div>
+ </body>
+</html>
